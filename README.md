@@ -11,9 +11,8 @@ unauthenticated — same access model the app itself relies on). No server of it
 - **Action: Trigger read (pick from library)** — dropdown of read names, live-updated as the
   Script Library changes in Confidence Monitor.
 - **Action: Trigger read (type exact name)** — a text-entry fallback, matched case-insensitively.
-- **Action: Show/hide an overlay element** — teleprompter, producer note, timer, clock, or
-  YouTube chat.
-- **Action: Toggle an overlay element** — same five elements, flips whatever it's currently set to
+- **Action: Show/hide an overlay element** — teleprompter, producer note, timer, or clock.
+- **Action: Toggle an overlay element** — same four elements, flips whatever it's currently set to
   instead of setting an explicit state.
 - **Action: Timer start/pause/reset**.
 - **Feedback: Read is LIVE** — make a button turn a color while its read is the one on the prompter.

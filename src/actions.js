@@ -7,7 +7,6 @@ export const SHOW_ELEMENTS = [
 	{ id: 'producer', label: 'Producer note', key: 'prodShow' },
 	{ id: 'timer', label: 'Timer', key: 'timerShow' },
 	{ id: 'clock', label: 'Clock', key: 'clockShow' },
-	{ id: 'chat', label: 'YouTube chat', key: 'chatShow' },
 ]
 
 export default function UpdateActions(self) {
