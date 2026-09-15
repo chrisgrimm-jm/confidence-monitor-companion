@@ -5,6 +5,7 @@ import { UpgradeScripts as upgradeScripts } from './upgrades.js'
 import UpdateActions from './actions.js'
 import UpdateFeedbacks from './feedbacks.js'
 import UpdateVariableDefinitions from './variables.js'
+import UpdatePresetDefinitions from './presets.js'
 
 // as of @companion-module/base v2, the host imports this file directly and reads the default
 // export as the instance class, plus this named export for upgrade scripts -- there is no
@@ -23,6 +24,7 @@ export default class ModuleInstance extends InstanceBase {
 		this.updateActions()
 		this.updateFeedbacks()
 		this.updateVariableDefinitions()
+		this.updatePresetDefinitions()
 		this.subscribe()
 	}
 
@@ -38,6 +40,7 @@ export default class ModuleInstance extends InstanceBase {
 		this.updateStatus(InstanceStatus.Connecting)
 		this.updateActions()
 		this.updateFeedbacks()
+		this.updatePresetDefinitions()
 		this.subscribe()
 	}
 
@@ -65,6 +68,7 @@ export default class ModuleInstance extends InstanceBase {
 				this.setVariableValues({ read_count: this.library.length })
 				this.updateActions()
 				this.updateFeedbacks()
+				this.updatePresetDefinitions()
 				this.updateStatus(InstanceStatus.Ok)
 			},
 			(err) => this.updateStatus(InstanceStatus.ConnectionFailure, err.message),
@@ -93,5 +97,8 @@ export default class ModuleInstance extends InstanceBase {
 	}
 	updateVariableDefinitions() {
 		UpdateVariableDefinitions(this)
+	}
+	updatePresetDefinitions() {
+		UpdatePresetDefinitions(this)
 	}
 }

@@ -1,6 +1,15 @@
 import { set, serverTimestamp } from '@firebase/database'
 import { promptRef } from './firebase.js'
 
+// element id (used in action/feedback options + preset ids) -> Confidence Monitor's state key
+export const SHOW_ELEMENTS = [
+	{ id: 'prompter', label: 'Teleprompter', key: 'promptShow' },
+	{ id: 'producer', label: 'Producer note', key: 'prodShow' },
+	{ id: 'timer', label: 'Timer', key: 'timerShow' },
+	{ id: 'clock', label: 'Clock', key: 'clockShow' },
+	{ id: 'chat', label: 'YouTube chat', key: 'chatShow' },
+]
+
 export default function UpdateActions(self) {
 	const choices = self.library.length
 		? self.library.map((s) => ({ id: s.name, label: s.name }))
@@ -11,6 +20,14 @@ export default function UpdateActions(self) {
 	async function triggerByName(name) {
 		if (!name) return
 		await set(promptRef(self.config.topic, 'trigger'), { name, n: serverTimestamp() })
+	}
+	async function setVisible(elementId, on) {
+		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
+		if (!el) return
+		await set(promptRef(self.config.topic, 'ui'), { t: 'show', key: el.key, on, n: serverTimestamp() })
+	}
+	async function timerOp(op) {
+		await set(promptRef(self.config.topic, 'ui'), { t: 'timer', op, n: serverTimestamp() })
 	}
 
 	self.setActionDefinitions({
@@ -38,6 +55,46 @@ export default function UpdateActions(self) {
 				},
 			],
 			callback: async (event) => triggerByName(event.options.name),
+		},
+		set_visibility: {
+			name: 'Show/hide an overlay element',
+			options: [
+				{
+					id: 'element',
+					type: 'dropdown',
+					label: 'Element',
+					choices: SHOW_ELEMENTS.map((e) => ({ id: e.id, label: e.label })),
+					default: SHOW_ELEMENTS[0].id,
+				},
+				{
+					id: 'on',
+					type: 'dropdown',
+					label: 'State',
+					choices: [
+						{ id: 'true', label: 'Show' },
+						{ id: 'false', label: 'Hide' },
+					],
+					default: 'true',
+				},
+			],
+			callback: async (event) => setVisible(event.options.element, event.options.on === 'true'),
+		},
+		timer_control: {
+			name: 'Timer start/pause/reset',
+			options: [
+				{
+					id: 'op',
+					type: 'dropdown',
+					label: 'Action',
+					choices: [
+						{ id: 'start', label: 'Start' },
+						{ id: 'pause', label: 'Pause' },
+						{ id: 'reset', label: 'Reset' },
+					],
+					default: 'start',
+				},
+			],
+			callback: async (event) => timerOp(event.options.op),
 		},
 	})
 }

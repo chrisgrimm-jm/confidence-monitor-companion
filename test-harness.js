@@ -6,6 +6,7 @@ import { promptRef } from './src/firebase.js'
 import UpdateActions from './src/actions.js'
 import UpdateFeedbacks from './src/feedbacks.js'
 import UpdateVariableDefinitions from './src/variables.js'
+import UpdatePresetDefinitions from './src/presets.js'
 import ModuleInstance, { UpgradeScripts } from './src/main.js'
 
 function makeSelf() {
@@ -24,6 +25,9 @@ function makeSelf() {
 		},
 		setVariableValues(vals) {
 			this._varVals = { ...(this._varVals || {}), ...vals }
+		},
+		setPresetDefinitions(defs) {
+			this._presets = defs
 		},
 	}
 }
@@ -57,8 +61,10 @@ async function main() {
 	UpdateActions(self)
 	UpdateFeedbacks(self)
 	UpdateVariableDefinitions(self)
+	UpdatePresetDefinitions(self)
 	console.log('trigger_read choices (real lib):', self._actions.trigger_read.options[0].choices)
 	console.log('feedback ids:', Object.keys(self._feedbacks))
+	console.log('preset ids:', Object.keys(self._presets))
 	console.log(
 		'read_is_live callback true for live name:',
 		self._feedbacks.read_is_live.callback({ options: { name: cv.name } }),
