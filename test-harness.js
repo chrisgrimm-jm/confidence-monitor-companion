@@ -26,8 +26,13 @@ function makeSelf() {
 		setVariableValues(vals) {
 			this._varVals = { ...(this._varVals || {}), ...vals }
 		},
-		setPresetDefinitions(defs) {
-			this._presets = defs
+		// two args as of @companion-module/base 2.1.3: (structure, presets) -- matching this
+		// shape here is the whole point of the stub; a single-arg call is exactly the bug that
+		// shipped in 0.2.0 ("cannot convert undefined or null to object" on Companion's side).
+		setPresetDefinitions(structure, presets) {
+			if (presets === undefined) throw new Error('setPresetDefinitions called with only one argument (structure, presets both required)')
+			this._presetStructure = structure
+			this._presets = presets
 		},
 	}
 }
@@ -65,6 +70,7 @@ async function main() {
 	console.log('trigger_read choices (real lib):', self._actions.trigger_read.options[0].choices)
 	console.log('feedback ids:', Object.keys(self._feedbacks))
 	console.log('preset ids:', Object.keys(self._presets))
+	console.log('preset structure:', JSON.stringify(self._presetStructure))
 	console.log(
 		'read_is_live callback true for live name:',
 		self._feedbacks.read_is_live.callback({ options: { name: cv.name } }),
