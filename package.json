@@ -1,0 +1,15 @@
+{
+	"name": "jomboy-confidence-monitor",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "src/main.js",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chrisgrimm-jm/confidence-monitor-companion.git"
+	},
+	"dependencies": {
+		"@companion-module/base": "^2.1.3",
+		"firebase": "^10.12.5"
+	}
+}

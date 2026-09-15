@@ -1,0 +1,28 @@
+{
+	"$schema": "../node_modules/@companion-module/base/assets/manifest.schema.json",
+	"id": "jomboy-confidence-monitor",
+	"name": "jomboy-confidence-monitor",
+	"type": "connection",
+	"shortname": "confmon",
+	"description": "Trigger and monitor the Jomboy Confidence Monitor teleprompter's script library",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/chrisgrimm-jm/confidence-monitor-companion.git",
+	"bugs": "https://github.com/chrisgrimm-jm/confidence-monitor-companion/issues",
+	"maintainers": [
+		{
+			"name": "Chris Grimm",
+			"email": "chrisgrimm@jomboymedia.com"
+		}
+	],
+	"legacyIds": [],
+	"runtime": {
+		"type": "node22",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../src/main.js"
+	},
+	"manufacturer": "Jomboy Media",
+	"products": ["Confidence Monitor"],
+	"keywords": ["teleprompter", "prompter", "firebase"]
+}
