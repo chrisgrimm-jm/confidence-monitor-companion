@@ -14,6 +14,7 @@ function makeSelf() {
 		config: { topic: 'adread' },
 		library: [],
 		liveName: '',
+		uiState: {},
 		setActionDefinitions(defs) {
 			this._actions = defs
 		},
@@ -53,6 +54,11 @@ async function main() {
 	const cv = csnap.val() || {}
 	console.log('live name:', cv.name)
 
+	console.log('--- reading real uistate (show/hide flags) ---')
+	const uisnap = await get(promptRef('adread', 'uistate'))
+	const uiState = uisnap.val() || {}
+	console.log('uistate:', uiState)
+
 	console.log('--- exercising actions.js with empty library ---')
 	let self = makeSelf()
 	UpdateActions(self)
@@ -63,6 +69,7 @@ async function main() {
 	self = makeSelf()
 	self.library = library
 	self.liveName = cv.name || ''
+	self.uiState = uiState
 	UpdateActions(self)
 	UpdateFeedbacks(self)
 	UpdateVariableDefinitions(self)
@@ -78,6 +85,12 @@ async function main() {
 	console.log(
 		'read_is_live callback false for bogus name:',
 		self._feedbacks.read_is_live.callback({ options: { name: 'zzz-nope-zzz' } }),
+	)
+	console.log(
+		'element_is_shown(clock) matches uistate.clockShow:',
+		self._feedbacks.element_is_shown.callback({ options: { element: 'clock' } }),
+		'vs',
+		!!uiState.clockShow,
 	)
 	console.log('variable defs:', self._varDefs)
 	console.log('variable values:', self._varVals)

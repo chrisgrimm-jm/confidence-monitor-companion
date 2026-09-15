@@ -17,8 +17,10 @@ export default class ModuleInstance extends InstanceBase {
 		this.config = config
 		this.library = [] // [{id, name}], live from Firebase prompter/<topic>/scripts
 		this.liveName = '' // name of whichever read is currently on the prompter
+		this.uiState = {} // {promptShow, prodShow, timerShow, clockShow}, live from prompter/<topic>/uistate
 		this.scriptsUnsub = null
 		this.contentUnsub = null
+		this.uiStateUnsub = null
 
 		this.updateStatus(InstanceStatus.Connecting)
 		this.updateActions()
@@ -37,6 +39,7 @@ export default class ModuleInstance extends InstanceBase {
 		this.config = config
 		this.library = []
 		this.liveName = ''
+		this.uiState = {}
 		this.updateStatus(InstanceStatus.Connecting)
 		this.updateActions()
 		this.updateFeedbacks()
@@ -80,13 +83,21 @@ export default class ModuleInstance extends InstanceBase {
 			this.setVariableValues({ live_read_name: this.liveName })
 			this.checkFeedbacks('read_is_live')
 		})
+
+		const uiStateRef = promptRef(this.config.topic, 'uistate')
+		this.uiStateUnsub = onValue(uiStateRef, (snap) => {
+			this.uiState = snap.val() || {}
+			this.checkFeedbacks('element_is_shown')
+		})
 	}
 
 	unsubscribe() {
 		if (this.scriptsUnsub) this.scriptsUnsub()
 		if (this.contentUnsub) this.contentUnsub()
+		if (this.uiStateUnsub) this.uiStateUnsub()
 		this.scriptsUnsub = null
 		this.contentUnsub = null
+		this.uiStateUnsub = null
 	}
 
 	updateActions() {

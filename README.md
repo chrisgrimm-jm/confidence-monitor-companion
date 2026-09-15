@@ -16,9 +16,13 @@ unauthenticated — same access model the app itself relies on). No server of it
   instead of setting an explicit state.
 - **Action: Timer start/pause/reset**.
 - **Feedback: Read is LIVE** — make a button turn a color while its read is the one on the prompter.
+- **Feedback: Overlay element is shown** — make a button turn a color while the selected element
+  (teleprompter/producer note/timer/clock) is actually visible on the monitor, regardless of which
+  button (or Confidence Monitor's own UI) last changed it.
 - **Variables:** `live_read_name`, `read_count`.
 - **Presets** — ready-made buttons for every read currently in the library (colored while live),
-  every show/hide/toggle action, and all three timer transport actions. Drag them onto a button and
+  every show/hide/toggle action (colored to match current visibility), and all three timer
+  transport actions. Drag them onto a button and
   they work as-is; the read presets update automatically as the Script Library changes.
 
 Show/hide and timer actions need Confidence Monitor's Control page open in a browser tab — it's

@@ -10,26 +10,31 @@ export default function UpdatePresetDefinitions(self) {
 	const controlIds = []
 
 	for (const el of SHOW_ELEMENTS) {
+		// same "is it currently on" feedback on all three -- lets you glance at any of them
+		// (not just the toggle) and see whether the element is actually shown right now
+		const shownFeedback = [
+			{ feedbackId: 'element_is_shown', options: { element: el.id }, style: { bgcolor: 0x00aa00, color: 0xffffff } },
+		]
 		presets[`show_${el.id}`] = {
 			type: 'simple',
 			name: `Show ${el.label}`,
 			style: { text: `SHOW\\n${el.label}`, size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
 			steps: [{ down: [{ actionId: 'set_visibility', options: { element: el.id, on: 'true' } }], up: [] }],
-			feedbacks: [],
+			feedbacks: shownFeedback,
 		}
 		presets[`hide_${el.id}`] = {
 			type: 'simple',
 			name: `Hide ${el.label}`,
 			style: { text: `HIDE\\n${el.label}`, size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
 			steps: [{ down: [{ actionId: 'set_visibility', options: { element: el.id, on: 'false' } }], up: [] }],
-			feedbacks: [],
+			feedbacks: shownFeedback,
 		}
 		presets[`toggle_${el.id}`] = {
 			type: 'simple',
 			name: `Toggle ${el.label}`,
 			style: { text: `TOGGLE\\n${el.label}`, size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
 			steps: [{ down: [{ actionId: 'toggle_visibility', options: { element: el.id } }], up: [] }],
-			feedbacks: [],
+			feedbacks: shownFeedback,
 		}
 		controlIds.push(`show_${el.id}`, `hide_${el.id}`, `toggle_${el.id}`)
 	}
