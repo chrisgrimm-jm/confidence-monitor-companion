@@ -1,4 +1,4 @@
-import { set, serverTimestamp } from '@firebase/database'
+import { set, push, serverTimestamp } from '@firebase/database'
 import { promptRef } from './firebase.js'
 
 // element id (used in action/feedback options + preset ids) -> Confidence Monitor's state key
@@ -21,18 +21,21 @@ export default function UpdateActions(self) {
 		if (!name) return
 		await set(promptRef(self.config.topic, 'trigger'), { name, n: serverTimestamp() })
 	}
+	// show/hide/timer commands go through a real queue (push a new child, Confidence Monitor
+	// applies and removes each one) rather than one shared value -- two commands for different
+	// elements landing close together must both land, not have the later one silently win.
 	async function setVisible(elementId, on) {
 		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
 		if (!el) return
-		await set(promptRef(self.config.topic, 'ui'), { t: 'show', key: el.key, on, n: serverTimestamp() })
+		await push(promptRef(self.config.topic, 'uiq'), { t: 'show', key: el.key, on })
 	}
 	async function toggleVisible(elementId) {
 		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
 		if (!el) return
-		await set(promptRef(self.config.topic, 'ui'), { t: 'toggle', key: el.key, n: serverTimestamp() })
+		await push(promptRef(self.config.topic, 'uiq'), { t: 'toggle', key: el.key })
 	}
 	async function timerOp(op) {
-		await set(promptRef(self.config.topic, 'ui'), { t: 'timer', op, n: serverTimestamp() })
+		await push(promptRef(self.config.topic, 'uiq'), { t: 'timer', op })
 	}
 
 	self.setActionDefinitions({
