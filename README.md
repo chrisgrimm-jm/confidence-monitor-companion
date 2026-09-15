@@ -13,12 +13,14 @@ unauthenticated — same access model the app itself relies on). No server of it
 - **Action: Trigger read (type exact name)** — a text-entry fallback, matched case-insensitively.
 - **Action: Show/hide an overlay element** — teleprompter, producer note, timer, clock, or
   YouTube chat.
+- **Action: Toggle an overlay element** — same five elements, flips whatever it's currently set to
+  instead of setting an explicit state.
 - **Action: Timer start/pause/reset**.
 - **Feedback: Read is LIVE** — make a button turn a color while its read is the one on the prompter.
 - **Variables:** `live_read_name`, `read_count`.
 - **Presets** — ready-made buttons for every read currently in the library (colored while live),
-  every show/hide action, and all three timer transport actions. Drag them onto a button and they
-  work as-is; the read presets update automatically as the Script Library changes.
+  every show/hide/toggle action, and all three timer transport actions. Drag them onto a button and
+  they work as-is; the read presets update automatically as the Script Library changes.
 
 Show/hide and timer actions need Confidence Monitor's Control page open in a browser tab — it's
 the one listening on Firebase and applying the change, the same as it does for triggering a read.

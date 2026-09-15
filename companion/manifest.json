@@ -5,7 +5,7 @@
 	"type": "connection",
 	"shortname": "confmon",
 	"description": "Trigger and monitor the Jomboy Confidence Monitor teleprompter's script library",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"license": "MIT",
 	"repository": "git+https://github.com/chrisgrimm-jm/confidence-monitor-companion.git",
 	"bugs": "https://github.com/chrisgrimm-jm/confidence-monitor-companion/issues",

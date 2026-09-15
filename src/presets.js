@@ -24,7 +24,14 @@ export default function UpdatePresetDefinitions(self) {
 			steps: [{ down: [{ actionId: 'set_visibility', options: { element: el.id, on: 'false' } }], up: [] }],
 			feedbacks: [],
 		}
-		controlIds.push(`show_${el.id}`, `hide_${el.id}`)
+		presets[`toggle_${el.id}`] = {
+			type: 'simple',
+			name: `Toggle ${el.label}`,
+			style: { text: `TOGGLE\\n${el.label}`, size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
+			steps: [{ down: [{ actionId: 'toggle_visibility', options: { element: el.id } }], up: [] }],
+			feedbacks: [],
+		}
+		controlIds.push(`show_${el.id}`, `hide_${el.id}`, `toggle_${el.id}`)
 	}
 
 	for (const [op, label] of [

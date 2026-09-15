@@ -26,6 +26,11 @@ export default function UpdateActions(self) {
 		if (!el) return
 		await set(promptRef(self.config.topic, 'ui'), { t: 'show', key: el.key, on, n: serverTimestamp() })
 	}
+	async function toggleVisible(elementId) {
+		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
+		if (!el) return
+		await set(promptRef(self.config.topic, 'ui'), { t: 'toggle', key: el.key, n: serverTimestamp() })
+	}
 	async function timerOp(op) {
 		await set(promptRef(self.config.topic, 'ui'), { t: 'timer', op, n: serverTimestamp() })
 	}
@@ -78,6 +83,19 @@ export default function UpdateActions(self) {
 				},
 			],
 			callback: async (event) => setVisible(event.options.element, event.options.on === 'true'),
+		},
+		toggle_visibility: {
+			name: 'Toggle an overlay element',
+			options: [
+				{
+					id: 'element',
+					type: 'dropdown',
+					label: 'Element',
+					choices: SHOW_ELEMENTS.map((e) => ({ id: e.id, label: e.label })),
+					default: SHOW_ELEMENTS[0].id,
+				},
+			],
+			callback: async (event) => toggleVisible(event.options.element),
 		},
 		timer_control: {
 			name: 'Timer start/pause/reset',
