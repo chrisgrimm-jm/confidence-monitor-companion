@@ -1,5 +1,5 @@
 import { InstanceBase, InstanceStatus } from '@companion-module/base'
-import { onValue } from 'firebase/database'
+import { onValue } from '@firebase/database'
 import { promptRef } from './firebase.js'
 import { UpgradeScripts as upgradeScripts } from './upgrades.js'
 import UpdateActions from './actions.js'

@@ -1,7 +1,7 @@
 // Scratch test harness -- NOT part of the shipped module. Exercises the module's logic
 // pieces directly (Companion's own host process drives the real InstanceBase lifecycle, which
 // isn't practical to fully simulate here) against the real Firebase project.
-import { get } from 'firebase/database'
+import { get } from '@firebase/database'
 import { promptRef } from './src/firebase.js'
 import UpdateActions from './src/actions.js'
 import UpdateFeedbacks from './src/feedbacks.js'

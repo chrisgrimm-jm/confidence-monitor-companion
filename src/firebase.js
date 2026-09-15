@@ -1,7 +1,7 @@
 // Same shared Firebase project the Confidence Monitor teleprompter uses (open/unauthenticated
 // read+write, same as every browser client already talking to it — no extra credentials here).
-import { initializeApp, getApps, getApp } from 'firebase/app'
-import { getDatabase, ref } from 'firebase/database'
+import { initializeApp, getApps, getApp } from '@firebase/app'
+import { getDatabase, ref } from '@firebase/database'
 
 const FIREBASE_CONFIG = {
 	apiKey: 'AIzaSyBG2PS2muH4i27HefuLeBnZWW-TZ5dkMCw',

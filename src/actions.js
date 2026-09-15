@@ -1,4 +1,4 @@
-import { set, serverTimestamp } from 'firebase/database'
+import { set, serverTimestamp } from '@firebase/database'
 import { promptRef } from './firebase.js'
 
 export default function UpdateActions(self) {
